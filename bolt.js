@@ -1,9 +1,10 @@
-const { getTeamWorkUrlData } = require('./lib/teamwork');
 require('dotenv').config();
 const keyBy = require('lodash.keyby');
 const omit = require('lodash.omit');
 const mapValues = require('lodash.mapvalues');
-const { App } = require('@slack/bolt');
+const { App, ExpressReceiver } = require('@slack/bolt');
+const { getTeamWorkUrlData } = require('./lib/teamwork');
+
 const DEBUG = process.env.DEBUG || false;
 
 const debugPrint = (DEBUG) ? function debugPrint(name, data) {
@@ -125,9 +126,18 @@ function messageAttachmentFromLink(link) {
     .catch(() => Object.assign(invalidTaskAnswer, { url: link.url }));
 }
 
-const app = new App({
+const expressReceiver = new ExpressReceiver({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
+});
+
+// Just a health check.
+expressReceiver.app.get('/ping', (_req, res) => {
+  res.status(200).send('pong');
+});
+
+const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
+  receiver: expressReceiver,
 });
 
 // Handle the event from the Slack Events API
