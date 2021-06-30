@@ -56,7 +56,7 @@ function messageAttachmentFromLink(link) {
             type: 'section',
             text: {
               type: 'mrkdwn',
-              text: `*Task:* <${link.url}|${twTask.content} (Status: ${twTask.status})>`,
+              text: `*Task:* <${link.url}|${twTask.content}>`,
             },
           },
           {
@@ -92,6 +92,13 @@ function messageAttachmentFromLink(link) {
           },
         ],
       };
+
+      if (twTask['responsible-party-id']) {
+        fieldsBlock.fields.push({
+          type: 'mrkdwn',
+          text: `*Assignee:*\n${twTask['responsible-party-firstname']}`,
+        });
+      }
 
       if (twTask['parent-task']) {
         fieldsBlock.fields.push({
