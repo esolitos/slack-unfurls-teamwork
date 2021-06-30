@@ -106,9 +106,13 @@ function messageAttachmentFromLink(link) {
         });
       }
       if (twTask['due-date']) {
+        // Input format: YYYYMMDD
+        const dueDate = twTask['due-date'];
+        // Output format: YYYY-MM-DD
+        const dateStr = `${dueDate.substring(0, 3)}-${dueDate.substring(4, 5)}-${dueDate.substring(6, 7)}`;
         fieldsBlock.fields.push({
           type: 'mrkdwn',
-          text: `*Due:*\n${(new Date(twTask['due-date'])).toUTCString()}`,
+          text: `*Due:*\n${dateStr}`,
         });
       }
       if (twTask['estimated-minutes']) {
