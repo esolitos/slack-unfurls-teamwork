@@ -80,15 +80,15 @@ function messageAttachmentFromLink(link) {
         fields: [
           {
             type: 'mrkdwn',
-            text: `*Project:*\n<https://${link.domain}/projects/${twTask['project-id']}|${twTask['project-name']}>`,
+            text: `*Project:*  <https://${link.domain}/projects/${twTask['project-id']}|${twTask['project-name']}>`,
           },
           {
             type: 'mrkdwn',
-            text: `*Status:*\n${twTask.status}`,
+            text: `*Status:*  ${twTask.status}`,
           },
           {
             type: 'mrkdwn',
-            text: `*List:*\n<https://${link.domain}/tasklists/${twTask['todo-list-id']}|${twTask['todo-list-name']}>`,
+            text: `*List:*  <https://${link.domain}/tasklists/${twTask['todo-list-id']}|${twTask['todo-list-name']}>`,
           },
         ],
       };
@@ -96,20 +96,20 @@ function messageAttachmentFromLink(link) {
       if (twTask['responsible-party-id']) {
         fieldsBlock.fields.push({
           type: 'mrkdwn',
-          text: `*Assignee:*\n${twTask['responsible-party-firstname']}`,
+          text: `*Assignee:*  ${twTask['responsible-party-firstname']}`,
         });
       }
 
       if (twTask['parent-task']) {
         fieldsBlock.fields.push({
           type: 'mrkdwn',
-          text: `*Parent:*\n<https://${link.domain}/tasks/${twTask['parent-task'].id}|${twTask['parent-task'].content}>`,
+          text: `*Parent:*  <https://${link.domain}/tasks/${twTask['parent-task'].id}|${twTask['parent-task'].content}>`,
         });
       }
       if (twTask.boardColumn) {
         fieldsBlock.fields.push({
           type: 'mrkdwn',
-          text: `*Board:*\n${twTask.boardColumn.name}`,
+          text: `*Board:*  ${twTask.boardColumn.name}`,
         });
       }
       if (twTask['due-date']) {
@@ -119,7 +119,7 @@ function messageAttachmentFromLink(link) {
         const dateStr = `${dueDate.substring(0, 3)}-${dueDate.substring(4, 5)}-${dueDate.substring(6, 7)}`;
         fieldsBlock.fields.push({
           type: 'mrkdwn',
-          text: `*Due:*\n${dateStr}`,
+          text: `*Due:*  ${dateStr}`,
         });
       }
       if (twTask['estimated-minutes']) {
@@ -127,7 +127,7 @@ function messageAttachmentFromLink(link) {
         const minutes = twTask['estimated-minutes'] % 60;
         fieldsBlock.fields.push({
           type: 'mrkdwn',
-          text: `*Estimated:*\n${hours}:${minutes}`,
+          text: `*Estimated:*  ${hours}:${minutes}`,
         });
       }
       attachment.blocks.push(fieldsBlock);
